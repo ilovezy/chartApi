@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" ng-app="radarChartModule">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title></title>
+<link rel="stylesheet" href="bootstrap-3.2.0-dist/css/bootstrap.min.css" />
+<style>
+*{outline: none!important}
+</style>
+</head>
+
+<body>
+<div style="height: 50px">
+    <ng-include src="'template/navbar.html'"></ng-include>
+</div>
+
+<div class="container">
+    <br />
+    <br />
+    <br />
+    
+   <div class="row">
+       <div class="col-sm-6">
+           <h2 class="text-center">pie chart</h2>
+            <canvas id="pieChart" style="width: 100%; height: 400px"></canvas>
+       </div>
+       <div class="col-sm-6">
+           <h2 class="text-center">doughnut chart</h2>
+           <canvas id="doughnutChart" style="width: 100%; height: 400px"></canvas>
+       </div>
+   </div>
+   <div>
+       <button class="btn btn-info" id="addData">add data</button>
+       <button class="btn btn-warning" id="removeData">remove data</button>
+   </div>
+</div>
+
+<div class="height: 50px">
+    <ng-include src="'template/footer.html'"></ng-include>
+</div>
+
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="angular-1.3.15/angular.min.js"></script>
+<script src="js/Chart.js"></script>
+<script src="bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+'use strict'
+var app = angular.module('radarChartModule', [])
+
+var data = [
+    {
+        value: 300,
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "jquery"
+    },
+    {
+        value: 10,
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "angular"
+    },
+    {
+        value: 100,
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "react"
+    }
+]
+
+var ctx = $('#pieChart').get(0).getContext('2d')
+var ctx2 = $('#doughnutChart').get(0).getContext('2d')
+
+// 饼状图
+var myPieChart = new Chart(ctx).Pie(data, {
+    // percentageInnerCutout : 10, // 这个其实就是中间镂空的宽度，镂空之后就变成 doughnutChart 甜甜圈形状的了
+    //Number - Amount of animation steps
+    animationSteps : 100,
+
+    //String - Animation easing effect
+    animationEasing : "easeInQuad",
+    animateRotate : true,
+    animateScale : true // 是否从中心绘制
+})
+
+// 甜甜圈图，其实就是饼图里面有个空心圆
+var myDoughnutChart = new Chart(ctx2).Doughnut(data)
+
+$('#addData').click(function(){
+    myPieChart.addData([40, 100], 'newData')
+    myDoughnutChart.addData([40, 100], 'newData')
+})
+$('#removeData').click(function(){
+    myPieChart.removeData()
+    myDoughnutChart.removeData()
+})
+
+
+</script>
+</body>
+</html>
+

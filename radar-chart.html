@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" ng-app="radarChartModule">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title></title>
+<link rel="stylesheet" href="bootstrap-3.2.0-dist/css/bootstrap.min.css" />
+<style>
+*{outline: none!important}
+</style>
+</head>
+
+<body>
+<div style="height: 50px">
+    <ng-include src="'template/navbar.html'"></ng-include>
+</div>
+
+<div class="container">
+   <h2 class="text-center">radar chart</h2>
+   <canvas id="radarChart" class="col-sm-12" style="height: 400px"></canvas>
+   <div class="">
+       <button class="btn btn-info" id="addData">add data</button>
+       <button class="btn btn-warning" id="removeData">remove data</button>
+   </div>
+</div>
+
+<div class="height: 50px">
+    <ng-include src="'template/footer.html'"></ng-include>
+</div>
+
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="angular-1.3.15/angular.min.js"></script>
+<script src="js/Chart.js"></script>
+<script src="bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+'use strict'
+var app = angular.module('radarChartModule', [])
+
+var data = {
+    labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Runing'], 
+    datasets: [
+        {
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: [65, 59, 90, 81, 56, 55, 40]
+        },
+        {
+            label: "My Second dataset",
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: [28, 48, 40, 19, 96, 80, 100]
+        }, 
+        {
+            label: "My third dataset",
+            fillColor: "rgba(151,187,205,.2)",
+            strokeColor: "rgba(151,250,205,1)",
+            pointColor: "rgba(151,187,255,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: [28, 99, 12, 44, 77, 30, 80]
+        }  
+    ]
+}
+
+var ctx = $('#radarChart').get(0).getContext('2d')
+var myRadarChart = new Chart(ctx).Radar(data, {
+    // scaleShowLine : false,// 辅助线
+    angleShowLineOut : true, // 主干辅助线
+    scaleShowLabels : true, // 坐标数据
+    scaleBeginAtZero : false, // 坐标数据是否从0开始
+    angleLineColor : "rgba(0,0,0,1)", // 主干辅助线颜色  
+    angleLineWidth : 4, // 主干辅助线粗细
+    pointLabelFontFamily : "'Arial'", // label 字体
+    pointLabelFontStyle : "bold", // label 字体样式
+    pointLabelFontSize : 15, // label 字体大小
+    pointLabelFontColor : "red", // label 字体颜色
+
+    // 这以后的都和 line-chart 相同了
+    pointDot : true, // 是否显示节点
+    pointDotRadius : 3,
+    pointDotStrokeWidth : 1,
+    pointHitDetectionRadius : 20,
+    datasetStroke : true,
+    datasetStrokeWidth : 2,
+    datasetFill : true,
+    legendTemplate : "<ul>" // 这个还是不明
+})
+
+$('#addData').click(function(){
+    myRadarChart.addData([40, 100], 'newData')
+})
+$('#removeData').click(function(){
+    myRadarChart.removeData()
+})
+
+</script>
+</body>
+</html>
+
